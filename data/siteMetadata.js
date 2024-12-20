@@ -13,7 +13,8 @@ const siteMetadata = {
   // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'semedoigor4@gmail.com',
   github: 'https://github.com/IgorSemed0/DizumbaTech',
-  // x: 'https://x.com/DizumbaTech',  author: 'Igor Semedo',
+  // x: 'https://x.com/DizumbaTech',  
+  // author: 'Igor Semedo',
 
   // twitter: 'https://twitter.com/Twitter',
   // facebook: 'https://facebook.com',
@@ -25,7 +26,7 @@ const siteMetadata = {
   // bluesky: 'https://bsky.app/',
   locale: 'pt-PT',
   // set to true if you want a navbar fixed to the top
-  stickyNav: false,
+  stickyNav: true,
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
