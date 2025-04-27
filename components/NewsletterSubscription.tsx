@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 
@@ -13,18 +15,46 @@ const NewsletterSubscription = () => {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isFetchingCategories, setIsFetchingCategories] = useState(true)
   const [message, setMessage] = useState({ text: '', isError: false })
 
-  // Fetch categories (you'll need to create this API endpoint)
+  // Fetch categories from the API
   useEffect(() => {
-    // Sample categories for now - replace with API call to get actual categories
-    setCategories([
-      { id: 1, vc_name: 'Programação' },
-      { id: 2, vc_name: 'Segurança' },
-      { id: 3, vc_name: 'Hardware' },
-      { id: 4, vc_name: 'Software' },
-      { id: 5, vc_name: 'IA & Machine Learning' }
-    ])
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/newsletter/categories')
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories')
+        }
+        const data = await response.json()
+        if (data.success && data.data) {
+          setCategories(data.data)
+        } else {
+          // Fallback categories if API fails
+          setCategories([
+            { id: 1, vc_name: 'Programação' },
+            { id: 2, vc_name: 'Segurança' },
+            { id: 3, vc_name: 'Hardware' },
+            { id: 4, vc_name: 'Software' },
+            { id: 5, vc_name: 'IA & Machine Learning' }
+          ])
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        // Fallback categories if API fails
+        setCategories([
+          { id: 1, vc_name: 'Programação' },
+          { id: 2, vc_name: 'Segurança' },
+          { id: 3, vc_name: 'Hardware' },
+          { id: 4, vc_name: 'Software' },
+          { id: 5, vc_name: 'IA & Machine Learning' }
+        ])
+      } finally {
+        setIsFetchingCategories(false)
+      }
+    }
+
+    fetchCategories()
   }, [])
 
   const handleCategoryToggle = (categoryId: number) => {
@@ -79,7 +109,7 @@ const NewsletterSubscription = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 my-8">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 my-8 w-full max-w-2xl">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Subscreva a nossa newsletter</h2>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
@@ -124,26 +154,30 @@ const NewsletterSubscription = () => {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Categorias de interesse
           </label>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {categories.map((category) => (
-              <div key={category.id} className="flex items-center">
-                <input
-                  id={`category-${category.id}`}
-                  name={`category-${category.id}`}
-                  type="checkbox"
-                  className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
-                  checked={selectedCategories.includes(category.id)}
-                  onChange={() => handleCategoryToggle(category.id)}
-                />
-                <label
-                  htmlFor={`category-${category.id}`}
-                  className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
-                >
-                  {category.vc_name}
-                </label>
-              </div>
-            ))}
-          </div>
+          {isFetchingCategories ? (
+            <div className="text-sm text-gray-500 dark:text-gray-400">A carregar categorias...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {categories.map((category) => (
+                <div key={category.id} className="flex items-center">
+                  <input
+                    id={`category-${category.id}`}
+                    name={`category-${category.id}`}
+                    type="checkbox"
+                    className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
+                    checked={selectedCategories.includes(category.id)}
+                    onChange={() => handleCategoryToggle(category.id)}
+                  />
+                  <label
+                    htmlFor={`category-${category.id}`}
+                    className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                  >
+                    {category.vc_name}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex items-start">
