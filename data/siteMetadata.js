@@ -2,8 +2,8 @@
 const siteMetadata = {
   title: 'Dizumba Tech',
   author: 'Igor Semedo',
-  headerTitle: 'DizumbaTech',
-  description: ' Dizumba Tech é o seu portal para explorar a tecnologia de forma descomplicada!  Aqui, conectamos Angola ao mundo com conteúdo tecnológicos do dia a dia, apresentando tutoriais claros e análises detalhadas.Nosso objetivo é empoderar você com conhecimento técnico e a solucionar as Dizumbas que a tecnologia tem a apresentar.',
+  headerTitle: 'Itel News',
+  description: 'Itel News é o seu portal de referência para acompanhar tudo sobre o Instituto de Telecomunicações de Angola! Aqui, trazemos novidades, projetos e eventos dos cursos de Eletrónica e Telecomunicações, Técnico de Informática e Técnico de Informática e Multimédia. Conteúdos práticos, análises detalhadas e tutoriais exclusivos para empoderar estudantes, profissionais e entusiastas com o melhor da tecnologia oferecida pelo ITEL.',
   language: 'pt-pt',
   theme: 'system', // system, dark or light
   siteUrl: 'https://dizumbatech.vercel.app',
